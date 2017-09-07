@@ -1,4 +1,5 @@
-﻿// converts date format from JSON
+window.console && console.log('ssssssssss');
+
 function getChartDate(d) {
     // get the data using javascript's date object (year, month, day, hour, minute, second)
     // months in javascript start at 0, so remember to subtract 1 when specifying the month
@@ -22,6 +23,7 @@ function HideAll() {
 //  This is where the chart is generated.
 $(document).ready(function () {
     //Add Channel Load Menu
+    /*
     var menu = document.getElementById("Channel Select");
     for (var channelIndex = 0; channelIndex < channelKeys.length; channelIndex++)  // iterate through each channel
     {
@@ -29,6 +31,7 @@ $(document).ready(function () {
         var menuOption = new Option(channelKeys[channelIndex].name, channelIndex);
         menu.options.add(menuOption, channelIndex);
     }
+    */
     var last_date; // variable for the last date added to the chart
     window.console && console.log('Testing console');
     //make series numbers for each field
@@ -202,7 +205,7 @@ $(document).ready(function () {
             tooltip: {
                 valueDecimals: 1,
                 valueSuffix: '°F',
-                xDateFormat: '%Y-%m-%d<br/>%1:%M:%S %p'
+                xDateFormat: '%Y-%m-%d<br/>%l:%M:%S %p'
                 // reformat the tooltips so that local times are displayed
                 //formatter: function() {
                 //var d = new Date(this.x + (myOffset*60000));
@@ -224,15 +227,10 @@ $(document).ready(function () {
             },
             yAxis: [{
                 title: {
-                    text: 'Temperature °F'
+                    text: 'Temperature °C'
                 },
                 id: 'T'
-            }, {
-                title: {
-                    text: 'Other'
-                },
-                opposite: true,
-                id: 'O'
+
             }],
             exporting: {
                 enabled: true,
@@ -305,9 +303,10 @@ $(document).ready(function () {
 
 function loadOneChannel() {
     // load a channel selected in the popUp menu.
-    var selectedChannel = document.getElementById("Channel Select");
+ //   var selectedChannel = document.getElementById("Channel Select");
     var maxLoads = document.getElementById("Loads").value;
-    var channelIndex = selectedChannel.selectedIndex;
+ //   var channelIndex = selectedChannel.selectedIndex;
+    var channelIndex = 0;
     loadChannelHistory(channelIndex, channelKeys[channelIndex].channelNumber, channelKeys[channelIndex].key, channelKeys[channelIndex].fieldList, 0, maxLoads);
 }
 
