@@ -151,7 +151,7 @@ $(document).ready(function () {
                 buttons: [{
                     count: 30,
                     type: 'minute',
-                    text: '30M'
+                    text: '30min'
                 }, {
                     count: 12,
                     type: 'hour',
@@ -227,7 +227,7 @@ $(document).ready(function () {
             },
             yAxis: [{
                 title: {
-                    text: 'Temperature °C'
+                    text: ''
                 },
                 id: 'T'
 
