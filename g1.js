@@ -54,6 +54,7 @@ $(document).ready(function () {
     }
     //window.console && console.log('Channel Keys',channelKeys);
 
+
     // load the most recent 2500 points (fast initial load) from a ThingSpeak channel into a data[] array and return the data[] array
     function loadThingSpeakChannel(sentChannelIndex, channelNumber, key, sentFieldList) {
         var fieldList = sentFieldList;
@@ -100,6 +101,7 @@ $(document).ready(function () {
                 zoomType: 'y',
                 events:
                 {
+                    height:700,
                     load: function () {
                         if ('true' === 'true' && (''.length < 1 && ''.length < 1 && ''.length < 1 && ''.length < 1 && ''.length < 1)) {
                             // If the update checkbox is checked, get latest data every 15 seconds and add it to the chart
