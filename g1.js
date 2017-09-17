@@ -1,4 +1,4 @@
-window.console && console.log('ssssssssss');
+﻿window.console && console.log('ssssssssss');
 
 function getChartDate(d) {
     // get the data using javascript's date object (year, month, day, hour, minute, second)
@@ -54,13 +54,12 @@ $(document).ready(function () {
     }
     //window.console && console.log('Channel Keys',channelKeys);
 
-
     // load the most recent 2500 points (fast initial load) from a ThingSpeak channel into a data[] array and return the data[] array
     function loadThingSpeakChannel(sentChannelIndex, channelNumber, key, sentFieldList) {
         var fieldList = sentFieldList;
         var channelIndex = sentChannelIndex;
         // get the Channel data with a webservice call
-        $.getJSON('https://www.thingspeak.com/channels/' + channelNumber + '/feed.json?callback=?&amp;offset=0&amp;results=2500;key=' + key, function (data) {
+        $.getJSON('https://www.thingspeak.com/channels/' + channelNumber + '/feed.json?callback=?&amp;offset=0&amp;results=60;key=' + key, function (data) {
             // if no access
             if (data == '-1') {
                 $('#chart-container').append('This channel is not public.  To embed charts, the channel must be public or a read key must be specified.');
@@ -75,7 +74,7 @@ $(document).ready(function () {
                     var fieldStr = "data.feeds[" + h + "].field" + fieldList[fieldIndex].field;
                     var v = eval(fieldStr);
                     p[0] = getChartDate(data.feeds[h].created_at);
-                    p[1] = parseFloat(v);
+                    p[1] = parseFloat(v) * fieldList[fieldIndex].m;
                     // if a numerical value exists add it
                     if (!isNaN(parseInt(v))) { fieldList[fieldIndex].data.push(p); }
                 }
@@ -97,11 +96,11 @@ $(document).ready(function () {
         var chartOptions = {
             chart:
             {
+                height:700,
                 renderTo: 'chart-container',
                 zoomType: 'y',
                 events:
                 {
-                    height:700,
                     load: function () {
                         if ('true' === 'true' && (''.length < 1 && ''.length < 1 && ''.length < 1 && ''.length < 1 && ''.length < 1)) {
                             // If the update checkbox is checked, get latest data every 15 seconds and add it to the chart
@@ -120,7 +119,7 @@ $(document).ready(function () {
                                                         var p = []//new Highcharts.Point();
                                                         var v = eval(fieldStr);
                                                         p[0] = getChartDate(data.created_at);
-                                                        p[1] = parseFloat(v);
+                                                        p[1] = parseFloat(v) * fieldList[fieldIndex].m;
                                                         // get the last date if possible
                                                         if (dynamicChart.series[chartSeriesIndex].data.length > 0) {
                                                             last_date = dynamicChart.series[chartSeriesIndex].data[dynamicChart.series[chartSeriesIndex].data.length - 1].x;
@@ -153,7 +152,7 @@ $(document).ready(function () {
                 buttons: [{
                     count: 30,
                     type: 'minute',
-                    text: '30min'
+                    text: '30M'
                 }, {
                     count: 12,
                     type: 'hour',
@@ -206,14 +205,8 @@ $(document).ready(function () {
             },
             tooltip: {
                 valueDecimals: 1,
-                valueSuffix: '°F',
-                xDateFormat: '%Y-%m-%d<br/>%l:%M:%S %p'
-                // reformat the tooltips so that local times are displayed
-                //formatter: function() {
-                //var d = new Date(this.x + (myOffset*60000));
-                //var n = (this.point.name === undefined) ? '' : '<br/>' + this.point.name;
-                //return this.series.name + ':<b>' + this.y + '</b>' + n + '<br/>' + d.toDateString() + '<br/>' + d.toTimeString().replace(/\(.*\)/, "");
-                //}
+       //         valueSuffix: '°F',
+                xDateFormat: '%Y-%m-%d<br/>%l:%M:%S %p',
             },
             xAxis: {
                 type: 'datetime',
@@ -229,8 +222,9 @@ $(document).ready(function () {
             },
             yAxis: [{
                 title: {
-                    text: ''
+          //          text: 'Temperature °C'
                 },
+           //     height:1200,
                 id: 'T'
 
             }],
@@ -262,11 +256,14 @@ $(document).ready(function () {
                 chartOptions.series.push({
                     data: channelKeys[channelIndex].fieldList[fieldIndex].data,
                     index: channelKeys[channelIndex].fieldList[fieldIndex].series,
-                    yAxis: channelKeys[channelIndex].fieldList[fieldIndex].axis,
+              //      yAxis: channelKeys[channelIndex].fieldList[fieldIndex].axis,
                     //visible:false,
-                    name: channelKeys[channelIndex].fieldList[fieldIndex].name
+                    name: channelKeys[channelIndex].fieldList[fieldIndex].name,
+                    tooltip: {
+                        valueSuffix: channelKeys[channelIndex].fieldList[fieldIndex].um
+                    }
                 });
-            }
+            } 
         }
         // set chart labels here so that decoding occurs properly
         //chartOptions.title.text = data.channel.name;
@@ -346,7 +343,7 @@ function loadChannelHistory(sentChannelIndex, channelNumber, key, sentFieldList,
                 var fieldStr = "data.feeds[" + h + "].field" + fieldList[fieldIndex].field;
                 var v = eval(fieldStr);
                 p[0] = getChartDate(data.feeds[h].created_at);
-                p[1] = parseFloat(v);
+                p[1] = parseFloat(v) * fieldList[fieldIndex].m;
                 // if a numerical value exists add it
                 if (!isNaN(parseInt(v))) { fieldList[fieldIndex].data.push(p); }
             }
