@@ -119,7 +119,7 @@ $(document).ready(function () {
                                                         var p = []//new Highcharts.Point();
                                                         var v = eval(fieldStr);
                                                         p[0] = getChartDate(data.created_at);
-                                                        p[1] = parseFloat(v) * fieldList[fieldIndex].m;
+                                                        p[1] = parseFloat(v) * channelKeys[channelIndex].fieldList[fieldIndex].m;
                                                         // get the last date if possible
                                                         if (dynamicChart.series[chartSeriesIndex].data.length > 0) {
                                                             last_date = dynamicChart.series[chartSeriesIndex].data[dynamicChart.series[chartSeriesIndex].data.length - 1].x;
