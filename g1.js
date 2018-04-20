@@ -259,6 +259,7 @@ $(document).ready(function () {
               //      yAxis: channelKeys[channelIndex].fieldList[fieldIndex].axis,
                     //visible:false,
                     name: channelKeys[channelIndex].fieldList[fieldIndex].name,
+                    type: channelKeys[channelIndex].fieldList[fieldIndex].type,
                     tooltip: {
                         valueSuffix: channelKeys[channelIndex].fieldList[fieldIndex].um
                     }
